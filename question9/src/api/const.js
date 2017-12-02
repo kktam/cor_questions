@@ -1,0 +1,1 @@
+export const COR_CALENDAR_API_GETEVENTS = "https://api1tst.richmond.ca:5121/api/1.0/geteventsdemo";
