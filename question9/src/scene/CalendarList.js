@@ -9,16 +9,18 @@ import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bu
 import createCORSRequest from './../api/cors';
 import { COR_CALENDAR_API_GETEVENTS } from './../api/const';
 
+import testData from './../data/event.js';
+
 class CalendarList extends Component {
   events = [];
   indexes = [];
-  test = false;
+  test = true;
   method = 'POST';
   xhr = null; 
 
   constructor(props) {
     super(props)
-    this.test = this.props.test;
+    //this.test = this.props.test;
     this.getCalendarEvents = this.getCalendarEvents.bind(this);
     this.getCalendarEventsSuccess = this.getCalendarEventsSuccess.bind(this);
     this.getCalendarEventsFailed = this.getCalendarEventsFailed.bind(this);   
@@ -31,14 +33,9 @@ class CalendarList extends Component {
   }
 
   getCalendarEvents(path) {
-    if (this.test === true) {
+    if (this.test == true) {
       // during test use these test data
-      this.events = [{ name: "Brendan Lim", index: 1, image: "images/ok-128.jpg" },
-      { name: "Eric Hoffman", index: 2, image: "images/kolage-128.jpg" },
-      { name: "Grace Ng", index: 3, image: "images/uxceo-128.jpg" }];
-      this.indexes = this.events.map(function (obj, index) {
-        return obj.name;
-      });
+      this.events = testData;
     } else {
     
       this.xhr = createCORSRequest(this.method, path); 
@@ -67,9 +64,9 @@ class CalendarList extends Component {
 
   getCalendarEventsFailed() {
     var result = this.xhr.responseText;  
-    var resultJson = JSON.parse(result);      
+    //var resultJson = JSON.parse(result);      
     // Error code goes here.
-    window.alert(`aws failed:\n\n${JSON.stringify(result, null, 2)}`)      
+    //window.alert(`aws failed:\n\n${JSON.stringify(result, null, 2)}`)      
   }  
 
   render() {
@@ -82,7 +79,7 @@ class CalendarList extends Component {
           <Subheader>Events</Subheader>
           {this.events.map(function (obj, index) {
             return <ListItem
-              primaryText={obj.name}
+              primaryText={obj.title}
               leftAvatar={<Avatar src={obj.image} />}
               rightIcon={<CommunicationChatBubble />}
             />
