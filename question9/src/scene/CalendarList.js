@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
 
 import CalendarCard from './CalendarCard';
@@ -28,12 +27,15 @@ class CalendarList extends Component {
     this.getCalendarEventsFailed = this.getCalendarEventsFailed.bind(this);
     this.onCalendarItemClicked = this.onCalendarItemClicked.bind(this);
     this.state = {
-      openCard: false
+      openCard: false,
+      selectedItem: null
     };
 
+   // immediately try to get the data
+   this.getCalendarEvents(COR_CALENDAR_API_GETEVENTS);    
+  }
 
-    // immediately try to get the data
-    this.getCalendarEvents(COR_CALENDAR_API_GETEVENTS);
+  componentDidMount() {
   }
 
   getCalendarEvents(path) {
@@ -99,21 +101,26 @@ class CalendarList extends Component {
       return;
     }
 
+    // mark previous opened item to closed
+    if (this.state.selectedItem != null) {
+      this.events[this.state.selectedItem.id].isOpened = false;
+    }
+
     // mark item as opened by dialog
     this.events[dataObj.id].isOpened = true;
 
     // set dialog open state
-    this.setState({openCard : true});
+    this.setState({
+      selectedItem: this.events[dataObj.id],
+      openCard : true
+    });
   }
 
   render() {
     var clickHandler = this.onCalendarItemClicked;
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <div className="App-title">Question 9</div>
-        </header>
+      <div>
         <List>
           <Subheader>Events</Subheader>
           {this.events.map(function (obj, index) {
@@ -125,10 +132,16 @@ class CalendarList extends Component {
             >
               </ListItem>
               })}
-        </List>
-        <CalendarCard 
-          open={this.state.openCard} />        
-      </div>
+        </List>     
+        { this.state.selectedItem && 
+          <CalendarCard 
+            open={this.state.openCard}
+            cardtitle={this.state.selectedItem.title}
+            subtitle={this.state.selectedItem.location}
+            date={this.state.selectedItem.date}
+            description={this.state.selectedItem.description} /> }
+        { !this.state.selectedItem && <CalendarCard  /> }        
+      </div>          
     );
   }
 }

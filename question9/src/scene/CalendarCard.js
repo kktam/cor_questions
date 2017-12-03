@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 
 /**
  * Calendar Card class
  */
-export default class CalendarCard extends React.Component {
+class CalendarCard extends Component {
   state = {
     open: false,
+    title: '',
+    subtitle: '',
+    description: ''
   };
 
   constructor(props) {
@@ -24,8 +29,12 @@ export default class CalendarCard extends React.Component {
   };
 
   render() {
-    this.state.open = this.props.open;
-      
+    var open  = this.props.open;
+    var title = this.props.cardtitle;
+    var subtitle = this.props.subtitle;    
+    var description =this.props.description;
+    var date = this.props.date;
+
     const actions = [
       <FlatButton
         label="Cancel"
@@ -43,18 +52,16 @@ export default class CalendarCard extends React.Component {
     return (
       <div>
         <Dialog
-          title="Dialog With Actions"
+          title={title}
           actions={actions}
           modal={false}
-          open={this.state.open}
+          open={open}
           onRequestClose={this.handleClose}
         >
-          The actions in this window were passed in as an array of React objects.
-
-{/*           <Card>
+          <Card>
             <CardHeader
-                title={obj.title}
-                subtitle={obj.location}
+                title={date}
+                subtitle={subtitle}
                 actAsExpander={true}
                 showExpandableButton={true}
             />
@@ -62,11 +69,20 @@ export default class CalendarCard extends React.Component {
               <FlatButton label="Action1" />
               <FlatButton label="Action2" />
             </CardActions>
-            <CardText expandable={true}>{obj.description}
+            <CardText expandable={true}>{description}
             </CardText>
-          </Card>  */}         
+          </Card>           
         </Dialog>
       </div>
     );
   }
 }
+
+CalendarCard.propTypes = {
+  cardtitle: PropTypes.string,
+  subtitle: PropTypes.string,
+  description: PropTypes.string,
+  date: PropTypes.date
+}
+
+export default CalendarCard;
