@@ -6,6 +6,7 @@ import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
 
+import request from 'request';
 import createCORSRequest from './../api/cors';
 import { COR_CALENDAR_API_GETEVENTS } from './../api/const';
 
@@ -41,31 +42,38 @@ class CalendarList extends Component {
       });
     } else {
     
-      this.xhr = createCORSRequest(this.method, path); 
-      this.xhr.onload = this.getCalendarEventsSuccess;
-      this.xhr.onerror = this.getCalendarEventsFailed;
+      //this.xhr = createCORSRequest(this.method, path); 
+      //this.xhr.onload = this.getCalendarEventsSuccess;
+      //this.xhr.onerror = this.getCalendarEventsFailed;
 
       let postData = { value: 20 };
       
       // eslint-disable-next-line
-      let postDataStr = JSON.stringify(postData);      
+      let postDataStr = JSON.stringify(postData);  
+      
 
-      this.xhr.setRequestHeader('Content-Type', 'application/json');  
-      //xhr.setRequestHeader('x-api-key', API_KEY);
-      this.xhr.send(postDataStr);      
+      this.xhr = request;
+      
+      this.xhr.post({
+        url: path,
+        formData: postData
+      }, this.getCalendarEventsSuccess);
     }
   }
 
-  getCalendarEventsSuccess() {
-    var result = this.xhr.responseText;
+  getCalendarEventsSuccess(err, httpResponse, body) {
+    if (err) {
+      return console.error('get events failed: ', err);
+    }
     //var resultJson = JSON.parse(result);
     // Success code goes here.
-    //console.log(`success:\n\n${JSON.stringify(result, null, 2)}`)
+    console.log(`success:\n\n${JSON.stringify(body, null, 2)}`)
 
     //this.events = resultJson;    
   }
 
   getCalendarEventsFailed() {
+
     var result = this.xhr.responseText;  
     var resultJson = JSON.parse(result);      
     // Error code goes here.
