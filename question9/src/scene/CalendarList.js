@@ -6,6 +6,7 @@ import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
 
+import axios from 'axios';
 import createCORSRequest from './../api/cors';
 import { COR_CALENDAR_API_GETEVENTS } from './../api/const';
 
@@ -41,33 +42,22 @@ class CalendarList extends Component {
       });
     } else {
     
-      this.xhr = createCORSRequest(this.method, path); 
-      this.xhr.onload = this.getCalendarEventsSuccess;
-      this.xhr.onerror = this.getCalendarEventsFailed;
+      axios.post(path, {
+        value: 1
+      }).then(this.getCalendarEventsSuccess)
+      .catch(this.getCalendarEventsFailed);
 
-      let postData = { value: 20 };
-      
-      // eslint-disable-next-line
-      let postDataStr = JSON.stringify(postData);      
-
-      this.xhr.setRequestHeader('Content-Type', 'application/json');  
-      //xhr.setRequestHeader('x-api-key', API_KEY);
-      this.xhr.send(postDataStr);      
     }
   }
 
-  getCalendarEventsSuccess() {
-    var result = this.xhr.responseText;
-    //var resultJson = JSON.parse(result);
+  getCalendarEventsSuccess(result) {
     // Success code goes here.
     //console.log(`success:\n\n${JSON.stringify(result, null, 2)}`)
 
-    //this.events = resultJson;    
+    this.events = result;    
   }
 
-  getCalendarEventsFailed() {
-    var result = this.xhr.responseText;  
-    var resultJson = JSON.parse(result);      
+  getCalendarEventsFailed(result) {      
     // Error code goes here.
     window.alert(`aws failed:\n\n${JSON.stringify(result, null, 2)}`)      
   }  
