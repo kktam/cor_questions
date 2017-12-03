@@ -1,7 +1,7 @@
 <html>
 <link href="./style.css" rel="stylesheet" />
 <body>
-    <div id="panel">
+    <div id="panel" class="hide" >
         <div>
             This line will only show if open in a desktop browser
         </div>
@@ -24,6 +24,11 @@ function showOrHideElement(elm) {
 
     if (isMobile()) {
         $("#" + elm).hide();
+    } else {
+        // remove static hide class that
+        // is used to hide element before JQuery is applied 
+        // after document is rendered
+        $("#" + elm).removeClass("hide");        
     }
 }
 

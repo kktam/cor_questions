@@ -12,7 +12,8 @@
 1. JQuery
 2. detect browser type using user-agent (navigator.userAgent)
    the mobile browser has an unqiue signature and used that to determine if this is a mobile device. This method is more accurate than css media checking using screen size.
-3. To hide a DOM element, we can i) use CSS and add css class (.hide), or ii) use JQuery hide method to manipulate the DOM (demostrated in sample)
+3. To hide a DOM element, we can i) use CSS and add css class (.hide), or ii) use JQuery hide method to manipulate the DOM (demonstrated in sample)
+4. Since JQuery need to downloaded from web. It will not work before JQuery is initialized and DOM/Document is rendered. Therefore, a CSS hide element is put in place, to cover the JQuery boot-strapping period.
 
 Solution deployed in AWS S3
 at
