@@ -23,7 +23,8 @@ class CalendarList extends Component {
     //this.test = this.props.test;
     this.getCalendarEvents = this.getCalendarEvents.bind(this);
     this.getCalendarEventsSuccess = this.getCalendarEventsSuccess.bind(this);
-    this.getCalendarEventsFailed = this.getCalendarEventsFailed.bind(this);   
+    this.getCalendarEventsFailed = this.getCalendarEventsFailed.bind(this);
+    this.onCalendarItemClicked = this.onCalendarItemClicked.bind(this);     
     this.state = {
     };
 
@@ -66,10 +67,16 @@ class CalendarList extends Component {
     var result = this.xhr.responseText;  
     //var resultJson = JSON.parse(result);      
     // Error code goes here.
-    //window.alert(`aws failed:\n\n${JSON.stringify(result, null, 2)}`)      
+    //window.alert(`failed:\n\n${JSON.stringify(result, null, 2)}`)      
   }  
 
+  onCalendarItemClicked(e) {
+    //window.alert(`click event:\n\n${JSON.stringify(e, null, 2)}`)  
+  }
+
   render() {
+    var clickHandler = this.onCalendarItemClicked;
+
     return (
       <div className="App">
         <header className="App-header">
@@ -80,6 +87,7 @@ class CalendarList extends Component {
           {this.events.map(function (obj, index) {
             return <ListItem
               primaryText={obj.title}
+              onClick={ (e) => clickHandler(e) }          
               leftAvatar={<Avatar src={obj.image} />}
               rightIcon={<CommunicationChatBubble />}
             />
