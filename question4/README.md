@@ -26,3 +26,51 @@
 
 ### pure Git repository (on-premise Git)
 
+
+                    |---> create labels - releases each release is a tag on the prod branch
+                    |            label can be REL-VERx.yy-YYYY-MM-DD
+                    |            where x = major release, yy = minor release
+                    |
+            |--> prod - production 
+            |
+            V
+    |--> staging  - last environment before deploying to prod
+    |      |-->   emergency dev branch can be made here, for emergency patches.
+    |
+    |--> qa - for UAT testing
+    |
+    Master - main integration branch - code starts here, and CI is maintained here
+    |
+    |<--- Team branch  - branch name = T-xxx where xxx = team number, or simply use team name
+            |
+            |<---  developer branch 
+
+
+    this style is suitable for regular SCRUM teams that routinely works on a collection of projects.
+
+    project and feature based only work can replace "Team branch" as "Feature branch", with feature names instead.
+
+### hosted Git repository (like Github)
+
+It is better to have production code in master branch, so that it is easier to view the shippable code when someone visit the main page in any Github project. The branches will need to shift a bit differently.
+
+        |---> create labels - releases each release is a tag on the prod branch
+        |            label can be REL-VERx.yy  where x = major release, yy = minor release
+        |
+    Master (prod)
+        |--> staging  - last environment before deploying to prod
+        |      |-->   emergency dev branch can be made here, for emergency patches.
+        |
+        |--> qa - for UAT testing
+        |
+        integration branch - code starts here, and CI is maintained here
+        |
+        |<--- Team branch  - branch name = T-xxx where xxx = team number, or simply use team name
+            |
+            |<---  developer branch
+
+
+Another alternative is to either move the team branch, or the developer branch into a forked project. If the Team is forked, then a Pull Request (PR) will be code reviewed by Gatekeeper before the entire feature work is accepted.
+
+Otherwise if developer individually forked the project, then each developer can initiate their own Pull Request (PR) and launch a much finer grained code review for their work.
+
