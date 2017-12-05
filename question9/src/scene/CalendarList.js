@@ -120,12 +120,10 @@ class CalendarList extends Component {
    * Handle close events from Calendar Card
    */ 
   onCalendarItemClosed() {
-    if (this.selectedItem == null) {
-      return;
+    if (this.selectedItem != null) {
+      this.events[this.selectedItem.id].isOpened = false;
     }
-
-    this.events[this.selectedItem.id].isOpened = false;
-
+    
     // set dialog open state
     this.setState({
       openCard : false
@@ -134,6 +132,7 @@ class CalendarList extends Component {
 
   render() {
     var clickHandler = this.onCalendarItemClicked;
+    var closeHandler = this.onCalendarItemClosed;
     var title = (this.state.selectedItem == null) ? null : this.state.selectedItem.title;
     var location = (this.state.selectedItem == null) ? null : this.state.selectedItem.location;
     var date = (this.state.selectedItem == null) ? null : this.state.selectedItem.date; 
@@ -159,7 +158,7 @@ class CalendarList extends Component {
             subtitle={location}
             date={date}
             description={description}
-            onClose={this.onCalendarItemClosed} /> }      
+            onClose={closeHandler} /> }      
       </div>          
     );
   }
