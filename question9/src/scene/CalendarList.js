@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
 
 import CalendarCard from './CalendarCard';
 
@@ -135,6 +134,10 @@ class CalendarList extends Component {
 
   render() {
     var clickHandler = this.onCalendarItemClicked;
+    var title = (this.state.selectedItem == null) ? null : this.state.selectedItem.title;
+    var location = (this.state.selectedItem == null) ? null : this.state.selectedItem.location;
+    var date = (this.state.selectedItem == null) ? null : this.state.selectedItem.date; 
+    var description = (this.state.selectedItem == null) ? null : this.state.selectedItem.description; 
 
     return (
       <div>
@@ -145,22 +148,18 @@ class CalendarList extends Component {
               primaryText={obj.title}
               key={obj.id}
               onClick={(e) => clickHandler(e, obj)}
-              rightIcon={<CommunicationChatBubble />}
             >
               </ListItem>
               })}
         </List>     
-        { this.state.selectedItem && this.state.openCard &&
+        { 
           <CalendarCard 
             open={this.state.openCard}
-            cardtitle={this.state.selectedItem.title}
-            subtitle={this.state.selectedItem.location}
-            date={this.state.selectedItem.date}
-            description={this.state.selectedItem.description}
-            onClose={this.onCalendarItemClosed} /> }
-        { !this.state.openCard && 
-          <CalendarCard 
-            open={this.state.openCard} /> }        
+            cardtitle={title}
+            subtitle={location}
+            date={date}
+            description={description}
+            onClose={this.onCalendarItemClosed} /> }      
       </div>          
     );
   }

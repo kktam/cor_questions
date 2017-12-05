@@ -70,10 +70,6 @@ class CalendarCard extends Component {
                 actAsExpander={true}
                 showExpandableButton={true}
             />
-            <CardActions>
-              <FlatButton label="Action1" />
-              <FlatButton label="Action2" />
-            </CardActions>
             <CardText expandable={true}>{description}
             </CardText>
           </Card>           
