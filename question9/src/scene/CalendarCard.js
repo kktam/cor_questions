@@ -26,6 +26,11 @@ class CalendarCard extends Component {
 
   handleClose = () => {
     this.setState({open: false});
+
+    if (this.props.onClose !== undefined && this.props.onClose != null) {
+      this.props.onClose();
+    }
+
   };
 
   render() {
@@ -82,7 +87,8 @@ CalendarCard.propTypes = {
   cardtitle: PropTypes.string,
   subtitle: PropTypes.string,
   description: PropTypes.string,
-  date: PropTypes.date
+  date: PropTypes.date,
+  onClose: PropTypes.function
 }
 
 export default CalendarCard;

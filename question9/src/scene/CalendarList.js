@@ -26,6 +26,7 @@ class CalendarList extends Component {
     this.getCalendarEventsSuccess = this.getCalendarEventsSuccess.bind(this);
     this.getCalendarEventsFailed = this.getCalendarEventsFailed.bind(this);
     this.onCalendarItemClicked = this.onCalendarItemClicked.bind(this);
+    this.onCalendarItemClosed = this.onCalendarItemClosed.bind(this);    
     this.state = {
       openCard: false,
       selectedItem: null
@@ -116,6 +117,22 @@ class CalendarList extends Component {
     });
   }
 
+  /*
+   * Handle close events from Calendar Card
+   */ 
+  onCalendarItemClosed() {
+    if (this.selectedItem == null) {
+      return;
+    }
+
+    this.events[this.selectedItem.id].isOpened = false;
+
+    // set dialog open state
+    this.setState({
+      openCard : false
+    });    
+  }
+
   render() {
     var clickHandler = this.onCalendarItemClicked;
 
@@ -133,14 +150,17 @@ class CalendarList extends Component {
               </ListItem>
               })}
         </List>     
-        { this.state.selectedItem && 
+        { this.state.selectedItem && this.state.openCard &&
           <CalendarCard 
             open={this.state.openCard}
             cardtitle={this.state.selectedItem.title}
             subtitle={this.state.selectedItem.location}
             date={this.state.selectedItem.date}
-            description={this.state.selectedItem.description} /> }
-        { !this.state.selectedItem && <CalendarCard  /> }        
+            description={this.state.selectedItem.description}
+            onClose={this.onCalendarItemClosed} /> }
+        { !this.state.openCard && 
+          <CalendarCard 
+            open={this.state.openCard} /> }        
       </div>          
     );
   }
