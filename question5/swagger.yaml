@@ -1,0 +1,447 @@
+swagger: '2.0'
+info:
+  description: >-
+    API for the Customer Interface built with     Swagger at
+    [http://swagger.io](http://swagger.io).
+  version: 1.0.0
+  title: Swagger Customers
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: nkltam2003@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: customers.swagger.io
+basePath: /v2
+tags:
+  - name: customers
+    description: Customers management
+    externalDocs:
+      description: CRUD and Custom queries
+      url: 'http://swagger.io'
+schemes:
+  - http
+paths:
+  /customer:
+    post:
+      tags:
+        - customers
+      summary: Add a new customer
+      description: ''
+      operationId: addCustomer
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Customer to be added
+          required: true
+          schema:
+            $ref: '#/definitions/Customer'
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - customers_auth:
+            - 'write:customers'
+            - 'read:customers'
+    put:
+      tags:
+        - customers
+      summary: Update an existing customer record
+      description: ''
+      operationId: updatePet
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Customers record to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Customer'
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Customer not found
+        '405':
+          description: Validation exception
+      security:
+        - customers_auth:
+            - 'write:customers'
+            - 'read:customers'
+  /cusstomers/findByLastname:
+    get:
+      tags:
+        - customers
+      summary: Finds Customers(s) by last name
+      description: Multiple Id values can be provided with comma separated strings
+      operationId: findByLastname
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: lastName
+          in: query
+          description: Partial or full name to be considered for filter
+          required: true
+          type: string
+        - name: records
+          in: query
+          description: number of records to return
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+        '400':
+          description: Invalid records value
+        '401':
+          description: Invalid last name value
+      security:
+        - customers_auth:
+            - 'write:customers'
+            - 'read:customers'
+  /customers/findByPhone:
+    get:
+      tags:
+        - customers
+      summary: Finds customers by phone number
+      description: partial or full phone number to locate.
+      operationId: findByPhone
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: phone
+          in: query
+          description: Phone number filter by
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+        '400':
+          description: Invalid phone. Input is not a valid phone number.
+      security:
+        - customers_auth:
+            - 'write:customers'
+            - 'read:customers'
+  /customers/findByCreateDate:
+    get:
+      tags:
+        - customers
+      summary: Finds customers with the selected date at which they joined the service.
+      description: >-
+        To locate a list of customers all have joined the service from the same
+        date.
+      operationId: findByCreateDate
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: createDate
+          in: query
+          description: Create date filter by (format YYYY-MM-DD)
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Customer'
+        '400':
+          description: Invalid date. Input is not a valid date.
+      security:
+        - customers_auth:
+            - 'write:customers'
+            - 'read:customers'
+  '/customer/{customerId}':
+    get:
+      tags:
+        - customers
+      summary: Find Customer by ID
+      description: Returns a single pet
+      operationId: getPetById
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of customer to return
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Customer'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Customer not found
+      security:
+        - api_key: []
+    put:
+      tags:
+        - customers
+      summary: Updates an existing customer with form data
+      description: ''
+      operationId: updateCustomerWithForm
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of customer that needs to be updated
+          required: true
+          type: integer
+          format: int64
+        - name: lastName
+          in: formData
+          description: Updated last name of the customer
+          required: false
+          type: string
+        - name: firstName
+          in: formData
+          description: Updated first name of the customer
+          required: false
+          type: string
+        - name: middleName
+          in: formData
+          description: Updated middle name of the customer
+          required: false
+          type: string
+        - name: phone
+          in: formData
+          description: Updated phone number of the customer
+          required: false
+          type: string
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - customers_auth:
+            - 'write:customers'
+            - 'read:customers'
+    delete:
+      tags:
+        - customers
+      summary: Deletes a customer
+      description: ''
+      operationId: deleteCustomer
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: api_key
+          in: header
+          required: true
+          type: string
+        - name: customerId
+          in: path
+          description: Customer id to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Customer not found
+      security:
+        - customers_auth:
+            - 'write:customers'
+            - 'read:customers'
+  '/customers/{petId}/uploadImage':
+    post:
+      tags:
+        - customers
+      summary: uploads an image
+      description: ''
+      operationId: uploadFile
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          type: integer
+          format: int64
+        - name: additionalMetadata
+          in: formData
+          description: Additional data to pass to server
+          required: false
+          type: string
+        - name: file
+          in: formData
+          description: file to upload
+          required: false
+          type: file
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ApiResponse'
+      security:
+        - customers_auth:
+            - 'write:customers'
+            - 'read:customers'
+  /customers/count:
+    get:
+      tags:
+        - customers
+      summary: Returns total count of all active customers
+      description: Returns a map of status codes to quantities
+      operationId: getInventory
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: integer
+            format: int32
+      security:
+        - api_key: []
+securityDefinitions:
+  customers_auth:
+    type: oauth2
+    authorizationUrl: 'http://customers.swagger.io/oauth/dialog'
+    flow: implicit
+    scopes:
+      'write:customers': modify customers in your account
+      'read:customers': read customers records
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+  CustomerIdObj:
+    type: object
+    properties:
+      customerId:
+        type: integer
+        format: int64
+    xml:
+      name: CustomerIdObj
+  Customer:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      customerId:
+        type: integer
+        format: int64
+      quantity:
+        type: integer
+        format: int32
+      createDate:
+        type: string
+        format: date-time
+      lastName:
+        type: string
+        description: last name of person
+      firstName:
+        type: string
+        description: first name of person
+      middleName:
+        type: string
+        description: middle name of person
+      addressId:
+        type: integer
+        description: address id storing person's address
+      isActive:
+        type: boolean
+        default: true
+    xml:
+      name: Customer
+  Phone:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      customerId:
+        type: integer
+        format: int64
+      category:
+        type: string
+        enum:
+          - main
+          - cell
+          - fax
+      phoneNumber:
+        type: string
+    xml:
+      name: Phone
+  Address:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      customerId:
+        type: integer
+        format: int64
+      category:
+        type: string
+        enum:
+          - main
+          - billing
+      addressLine1:
+        type: string
+      addressLine2:
+        type: string
+      addressLine3:
+        type: string
+      city:
+        type: string
+      province:
+        type: string
+      country:
+        type: string
+    xml:
+      name: Phone
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'

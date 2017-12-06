@@ -10,18 +10,21 @@
  
 ### Basic characteristics of API 
  
+All API calls requires authentication is completed successfully.
+All API calls requires API keys
 All inputs are string.
-All output as JSON serialized string in Http body.
-all API return Http code 200 for success
-all API return Http code 404 for not authorized 
+All output as JSON serialized string in Http body. (may consider supporting Xml for legacy applications)
+All API return Http code 200 for success
+All API return Http code 404 for not authorized 
+All API return Http code 405 if one or more invalid input is detected 
  
 ### Baseline sets
 
 POST /customer create a new customer
 PUT  /customer add a new customer
-GET  /customer/{customerid} - return a full customer record detail by customer id
-PUT  /customer/{customerid} - update selected customer by id with form data
-DELETE /customer/{customerid} - delete a customer. depending on needs of application, either this will physically delete the
+GET  /customer/{customerId} - return a full customer record detail by customer id
+PUT  /customer/{customerId} - update selected customer by id with form data
+DELETE /customer/{customerId} - delete a customer. depending on needs of application, either this will physically delete the
   customer record from database, or marked it as inactive, or move to historical database.
 
   
