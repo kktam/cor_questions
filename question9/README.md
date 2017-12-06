@@ -11,8 +11,7 @@
 
 ### Application Screenshots
 
-![Main Calendar event view]
-(https://github.com/kktam/cor_questions/blob/master/question9/doc/App-MainScreen.png)
+![Main Calendar event view](https://github.com/kktam/cor_questions/blob/master/question9/doc/App-MainScreen.png)
 
 ![Calendar card popped up](https://github.com/kktam/cor_questions/blob/master/question9/doc/App-CalendarCard.png)
 
