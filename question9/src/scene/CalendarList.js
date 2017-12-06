@@ -55,7 +55,7 @@ class CalendarList extends Component {
       this.xhr.onload = this.getCalendarEventsSuccess;
       this.xhr.onerror = this.getCalendarEventsFailed;
 
-      let postData = { value: 20 };
+      let postData = { };
 
       // eslint-disable-next-line
       let postDataStr = JSON.stringify(postData);
