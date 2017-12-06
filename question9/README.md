@@ -9,6 +9,15 @@
 
 ## Answer
 
+### Application Screenshots
+
+![Main Calendar event view]
+(https://github.com/kktam/cor_questions/blob/master/question9/doc/App-MainScreen.png)
+
+![Calendar card popped up](https://github.com/kktam/cor_questions/blob/master/question9/doc/App-CalendarCard.png)
+
+### Details
+
 - to run locally, use the command ` npm run start `
 - to generate published scripts, use the command ` npm run build `
 
@@ -20,7 +29,6 @@ Solution deployed in AWS S3
 at
 
 [COR Question 9 ](https://s3-us-west-2.amazonaws.com/kt-cor/question9/index.html)  , <--- currently not working
-
 
 ### Things still not working
 
